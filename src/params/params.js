@@ -20,14 +20,42 @@ class Params extends Component {
             milesEnd: 100000,
             milesList: []
         },
-        chargingHours : [ 'Midnight to 6am', '6am to Noon', 'Noon to 6pm', '6pm to Midnight']
+        chargingHours : [ 'Midnight to 6am', '6am to Noon', 'Noon to 6pm', '6pm to Midnight'],
+        selectedParams: {
+            currentRate: 'Rate A',
+            miles: 1000,
+            hours: 'Midnight to 6am'
+        }
     }
 
     componentWillMount() {
         for(var i = 0; i < (this.state.miles.milesEnd / this.state.miles.milesStep); i++) {
             this.state.miles.milesList.push(this.state.miles.milesStart * (i + 1));
         }
-        console.log(this.state.miles.milesList);
+    }
+
+    changeRateHandler = (e) => {
+        this.setState({
+            selectedParams: {
+                currentRate: e.target.value
+            }
+        });
+    }
+
+    changeMilesHandler = (e) => {
+        this.setState({
+            selectedParams: {
+                miles: e.target.value
+            }
+        });
+    }
+
+    changeHoursHandler = (e) => {
+        this.setState({
+            selectedParams: {
+                hours: e.target.value
+            }
+        });
     }
 
     render () {
@@ -37,7 +65,7 @@ class Params extends Component {
             <div className = 'params-choice'>
                 <label for = 'miles'>Choose the Average number of Miles you drive per year</label>
                 <div>
-                    <select id = 'miles' className = 'select'>
+                    <select id = 'miles' className = 'select' onChange={this.changeMilesHandler}>
                         {this.state.miles.milesList.map((miles, index) => {
                         return <MileOption
                             miles = {miles}
@@ -52,7 +80,7 @@ class Params extends Component {
             <div className = 'params-choice'>
                 <label for = 'charging-hours'>Choose the hours you plan to charge your EV</label>
                 <div>
-                    <select id = 'charging-hours' className = 'select'>
+                    <select id = 'charging-hours' className = 'select' onChange={this.changeHoursHandler} >
                         {this.state.chargingHours.map((hours, index) => {
                             return <ChargingHourOption
                                 hours = {hours}
@@ -64,7 +92,7 @@ class Params extends Component {
         )  
         return (
             <div>
-                <CurrentRate currentRate = {this.state.currentRate}/>
+                <CurrentRate currentRate = {this.state.currentRate} change = {this.changeRateHandler}/>
                 {miles}
                 {chargingHours}
             </div>
