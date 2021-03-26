@@ -1,0 +1,25 @@
+.params-choice, .params-desc{
+    display: inline-block;
+    width: 31%;
+    margin: 0% 2%;
+    vertical-align: middle;
+}
+
+.params-choice .select {
+    margin-top: 5%;
+    width: 80%;
+}
+
+.params-choice .tooltip {
+    font-size: 0.8em;
+}
+
+.params-desc {
+    width: 58%;
+    text-align: left;
+    font-size: 0.8em;
+}
+
+.params-choice {
+    
+}

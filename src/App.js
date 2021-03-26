@@ -1,4 +1,6 @@
 import './App.css';
+import './params/styles/params.css'
+import Params from './params/params';
 
 function App() {
   return (
@@ -10,7 +12,7 @@ function App() {
       </header>
       <div className = 'data'>
         <div className = 'params'>
-          Params here
+          <Params/>
         </div>
         <div className = 'findings'>
         Findings here
