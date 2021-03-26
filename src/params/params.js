@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import CurrentRate from './currentRate';
-// import Miles from './miles';
+import MileOption from './mileOption';
 class Params extends Component {
     state = {
         currentRate: {
@@ -16,7 +16,8 @@ class Params extends Component {
         miles : {
             milesStart: 1000,
             milesStep: 1000,
-            milesEnd: 100000
+            milesEnd: 100000,
+            milesList: []
         },
         timeOfDay : {
             option1 : 'Midnight to 6am',
@@ -25,11 +26,34 @@ class Params extends Component {
             option4 : '6pm to Midnight'
         }
     }
+
+    componentWillMount() {
+        for(var i = 0; i < (this.state.miles.milesEnd / this.state.miles.milesStep); i++) {
+            this.state.miles.milesList.push(this.state.miles.milesStart * (i + 1));
+        }
+        console.log(this.state.miles.milesList);
+    }
+
     render () {
+        let miles = null;
+        miles = (
+            <div className = 'params-choice'>
+                <label for = 'miles'>Choose the Average number of Miles you drive per year</label>
+                <div>
+                    <select id = 'miles' className = 'select'>
+                        {this.state.miles.milesList.map((miles, index) => {
+                        return <MileOption
+                            miles = {miles}
+                            key = {miles}/>
+                        })}
+                    </select>
+                </div>
+            </div>
+          )
         return (
             <div>
                 <CurrentRate currentRate = {this.state.currentRate}/>
-                {/* <Miles/> */}
+                {miles}
                 {/*<TimeOfDay/> */}
             </div>
         )

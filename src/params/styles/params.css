@@ -20,6 +20,12 @@
     font-size: 0.8em;
 }
 
-.params-choice {
-    
+.params-choice:nth-child(2) {
+    display: block;
+    margin: 5% auto;
+    width: fit-content;
+}
+
+.params-choice:nth-child(2) .select {
+    width: 22%;
 }
