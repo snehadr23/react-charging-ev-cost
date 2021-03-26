@@ -23,6 +23,8 @@
 
 .params, .findings {
   display: inline-block;
-  width: 46%;
-  margin: 2%;
+  width: 44%;
+  margin: 1.5%;
+  border: 0.2em solid white;
+  padding: 0.5em;
 }

@@ -1,4 +1,4 @@
-.params-choice, .params-desc{
+.params-choice:first-child, .params-desc{
     display: inline-block;
     width: 31%;
     margin: 0% 2%;
@@ -7,7 +7,9 @@
 
 .params-choice .select {
     margin-top: 5%;
-    width: 80%;
+    width: fit-content;
+    padding: 2%;
+    border-radius: 1em;
 }
 
 .params-choice .tooltip {
@@ -20,12 +22,8 @@
     font-size: 0.8em;
 }
 
-.params-choice:nth-child(2) {
+.params-choice {
     display: block;
     margin: 5% auto;
     width: fit-content;
-}
-
-.params-choice:nth-child(2) .select {
-    width: 22%;
 }
