@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Papa from 'papaparse';
 import CurrentRate from './currentRate';
 import MileOption from './mileOption';
 import ChargingHourOption from './chargingHourOption';
@@ -25,7 +26,8 @@ class Params extends Component {
             currentRate: 'Rate A',
             miles: 1000,
             hours: 'Midnight to 6am'
-        }
+        },
+        loadProfile:[]
     }
 
     componentWillMount() {

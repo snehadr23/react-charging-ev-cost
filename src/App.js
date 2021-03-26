@@ -1,6 +1,6 @@
 import './App.css';
-import './params/styles/params.css'
-import Params from './params/params';
+import './components/params/styles/params.css'
+import Params from './components/params/params';
 
 function App() {
   return (
