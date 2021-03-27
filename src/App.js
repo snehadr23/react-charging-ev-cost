@@ -11,12 +11,7 @@ function App() {
         </p>
       </header>
       <div className = 'data'>
-        <div className = 'params'>
-          <Params/>
-        </div>
-        <div className = 'findings'>
-        Findings here
-        </div>
+        <Params/>
       </div>
       
     </div>
