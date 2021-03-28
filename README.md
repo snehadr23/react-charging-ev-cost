@@ -16,7 +16,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Steps ##
 
-* clone the code from [here](https://github.com/snehadr23/react-charging-ev-cost.git)
+* Clone the code from [here](https://github.com/snehadr23/react-charging-ev-cost.git)
 * Run `npm install` to install all the dependencies
 * After verifying that all the dependencies have been properly installed, run `npm start`
 * The application should open at 'http://localhost:3000/'
