@@ -107,6 +107,7 @@ class Params extends Component {
         this.setState({
             billImpactA: billImpactA
         });
+        return billImpactA;
     }
 
     calcBillImpactB = () => {
@@ -162,11 +163,12 @@ class Params extends Component {
         this.setState({
             billImpactB: billImpactB
         });
+        return billImpactB;
     }
 
-    determineRecommendation = () => {
+    determineRecommendation = (billImpactA, billImpactB) => {
         if(this.state.currentRateSelected === 'Rate A') {
-            if (this.state.billImpactA > this.state.billImpactB) {
+            if (billImpactA > billImpactB) {
                 this.setState({
                     recommendation: 'Please switch to the more cost efficient plan -  \'Rate B\''
                 });
@@ -176,7 +178,7 @@ class Params extends Component {
                 });
             }
         } else if(this.state.currentRateSelected === 'Rate B') {
-                if (this.state.billImpactA > this.state.billImpactB) {
+                if (billImpactA > billImpactB) {
                     this.setState({
                         recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate B\''
                     });
@@ -189,12 +191,14 @@ class Params extends Component {
     }
 
     evaluateDollarAmount = (e) => {
+        var billImpactA = 0;
+        var billImpactB = 0;
         this.setState({
             calcDollarAmount: true
         });
-        this.calcBillImpactA();
-        this.calcBillImpactB();
-        this.determineRecommendation();
+        billImpactA = this.calcBillImpactA();
+        billImpactB = this.calcBillImpactB();
+        this.determineRecommendation(billImpactA, billImpactB);
     }
 
     render () {

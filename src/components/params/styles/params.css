@@ -5,6 +5,10 @@
     border-radius: 1em;
 }
 
+.params-choice .select:focus {
+  outline: none;
+}
+
 .params-choice .tooltip {
     font-size: 0.8em;
 }
