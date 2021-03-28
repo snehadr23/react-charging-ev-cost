@@ -1,10 +1,3 @@
-.params-choice:first-child, .params-desc{
-    display: inline-block;
-    width: 31%;
-    margin: 0% 2%;
-    vertical-align: middle;
-}
-
 .params-choice .select {
     margin-top: 5%;
     width: fit-content;
@@ -17,9 +10,11 @@
 }
 
 .params-desc {
-    width: 58%;
+    width: 15%;
     text-align: left;
     font-size: 0.8em;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .params-choice {
@@ -36,6 +31,22 @@
     padding: 2.5em 0.5em;
     vertical-align: middle;
     height: 28em;
+  }
+
+  .tooltip:hover + .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    background-color: #FFFFFF;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    top: 30%;
+    margin-left: 5em;
   }
   
   .findings-list {

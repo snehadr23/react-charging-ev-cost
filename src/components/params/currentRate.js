@@ -11,12 +11,14 @@ const CurrentRate = (props) => {
                         <option value = {props.currentRate.rateB.name}>{props.currentRate.rateB.name}</option>
                     </select>
                 </div>
-                <p className = 'tooltip'>Need more details?</p>
-            </div>
-            <div className = 'params-desc'>
-                <div className = 'desc'>
-                    <p>{props.currentRate.rateA.name} - {props.currentRate.rateA.desc}</p>
-                    <p>{props.currentRate.rateB.name} - {props.currentRate.rateB.desc}</p>
+                <div>
+                    <p className = 'tooltip'>Need more details?</p>
+                    <div className = 'params-desc tooltiptext'>
+                        <div className = 'desc'>
+                            <p>{props.currentRate.rateA.name} - {props.currentRate.rateA.desc}</p>
+                            <p>{props.currentRate.rateB.name} - {props.currentRate.rateB.desc}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
