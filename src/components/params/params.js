@@ -30,10 +30,18 @@ class Params extends Component {
         loadProfile:[],
         loadProfileAvailable: false,
         calcDollarAmount: false,
-        yearlyUsageBefore: 0,
-        yearlyBillBefore: 0,
-        yearlyUsageAfter: 0,
-        yearlyBillAfter: 0
+        yearlyUsageBeforeA: 0,
+        yearlyBillBeforeA: 0,
+        yearlyUsageAfterA: 0,
+        yearlyBillAfterA: 0,
+        yearlyUsageBeforeB: 0,
+        yearlyBillBeforeB: 0,
+        yearlyUsageAfterB: 0,
+        yearlyBillAfterB: 0,
+        billImpactA: 0,
+        billImpactB: 0,
+        touFlag: false,
+        recommendation: 'Recommendation'
     }
 
     componentWillMount() {
@@ -71,45 +79,124 @@ class Params extends Component {
     }
 
     evaluateDollarAmount = (e) => {
-        var totalUsageBefore = 0;
-        var totalBillBefore = 0;
-        var totalUsageAfter = 0;
-        var totalBillAfter = 0;
+        var totalUsageBeforeA = 0;
+        var totalBillBeforeA = 0;
+        var totalUsageAfterA = 0;
+        var totalBillAfterA = 0;
+        var totalUsageBeforeB = 0;
+        var totalBillBeforeB = 0;
+        var totalUsageAfterB = 0;
+        var totalBillAfterB = 0;
+        var billImpactA = 0;
+        var billImpactB = 0;
         console.log('miles: ', this.state.milesSelected);
         console.log('rate: ', this.state.currentRateSelected);
         console.log('hours: ', this.state.hoursSelected);
         this.setState({
             calcDollarAmount: true
         });
-        if(this.state.currentRateSelected === 'Rate A') {
+            console.log('****Rate A****');
             this.state.loadProfile.map((loadDay, dayIndex) => {
                 loadDay.map((loadData, dataIndex) => {
                     if (dataIndex === 1) {
-                        totalUsageBefore += parseFloat(loadData);
-                        totalBillBefore += (0.15 * parseFloat(loadData));
+                        totalUsageBeforeA += parseFloat(loadData);
+                        totalBillBeforeA += (0.15 * parseFloat(loadData));
                     }
                 });
             });
-            totalBillBefore = Math.round(totalBillBefore);
+            totalBillBeforeA = Math.round(totalBillBeforeA);
             this.setState({
-                yearlyUsageBefore: totalUsageBefore,
-                yearlyBillBefore: totalBillBefore
+                yearlyUsageBeforeA: totalUsageBeforeA,
+                yearlyBillBeforeA: totalBillBeforeA
             });
-            console.log('totalBillBefore: ', totalBillBefore);
-            console.log('totalUsageBefore: ', totalUsageBefore);
-            totalUsageAfter = totalUsageBefore + (0.3 * this.state.milesSelected);
-            totalBillAfter = Math.round(totalBillBefore + (0.3 * 0.15 * this.state.milesSelected));
+            console.log('totalBillBeforeA: ', totalBillBeforeA);
+            console.log('totalUsageBeforeA: ', totalUsageBeforeA);
+            totalUsageAfterA = totalUsageBeforeA + (0.3 * this.state.milesSelected);
+            totalBillAfterA = Math.round(totalBillBeforeA + (0.3 * 0.15 * this.state.milesSelected));
             this.setState({
-                yearlyUsageAfter: totalUsageAfter,
-                yearlyBillAfter: totalBillAfter
+                yearlyUsageAfterA: totalUsageAfterA,
+                yearlyBillAfterA: totalBillAfterA
             });
             console.log('avg mile/yr: ', this.state.milesSelected);
-            console.log('totalUsageAfter: ', totalUsageAfter);
-            console.log('totalBillAfter: ', totalBillAfter);
+            console.log('totalUsageAfterA: ', totalUsageAfterA);
+            console.log('totalBillAfterA: ', totalBillAfterA);
+            console.log('****Rate A****');
+            console.log('****Rate B****');
+            this.state.loadProfile.map((loadDay, dayIndex) => {
+                loadDay.map((loadData, dataIndex) => {
+                    if ((dataIndex === 0) 
+                    && ((loadData.indexOf('13:00:00') > -1) || 
+                        (loadData.indexOf('14:00:00') > -1) || 
+                        (loadData.indexOf('15:00:00') > -1) || 
+                        (loadData.indexOf('16:00:00') > -1) || 
+                        (loadData.indexOf('17:00:00') > -1) || 
+                        (loadData.indexOf('18:00:00') > -1))) {
+                        this.setState({
+                            touFlag: true
+                        });
+                    } else {
+                        this.setState({
+                            touFlag: false
+                        });
+                    }
+                    if (dataIndex === 1) {
+                        totalUsageBeforeB += parseFloat(loadData);
+                        if(this.state.touFlag) {
+                            totalBillBeforeB += (0.2 * parseFloat(loadData));
+                        } else {
+                            totalBillBeforeB += (0.08 * parseFloat(loadData));
+                        }
+                    }
+                });
+            });
+            totalBillBeforeB = Math.round(totalBillBeforeB);
+            this.setState({
+                yearlyUsageBeforeB: totalUsageBeforeB,
+                yearlyBillBeforeB: totalBillBeforeB
+            });
 
-        } else if (this.state.currentRateSelected === 'Rate B') {
-            console.log('Current Rate Selected: Rate B');
-        }
+            totalUsageAfterB = totalUsageBeforeB + (0.3 * this.state.milesSelected);
+            console.log('hoursSelected: ', this.state.hoursSelected);
+            if((this.state.hoursSelected === 'Noon to 6pm')) {
+                totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.2 * this.state.milesSelected));
+            } else {
+                totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.08 * this.state.milesSelected));
+            }
+            this.setState({
+                yearlyUsageAfterB: totalUsageAfterB,
+                yearlyBillAfterB: totalBillAfterB
+            });
+            console.log('avg mile/yr: ', this.state.milesSelected);
+            console.log('totalUsageAfterB: ', totalUsageAfterB);
+            console.log('totalBillAfterB: ', totalBillAfterB);
+            console.log('****Rate B****');
+            billImpactA = totalBillAfterA - totalBillBeforeA;
+            billImpactB = totalBillAfterB - totalBillBeforeB;
+            this.setState({
+                billImpactA: billImpactA,
+                billImpactB: billImpactB
+            });
+            if(this.state.currentRateSelected === 'Rate A') {
+                if (billImpactA > billImpactB) {
+                    this.setState({
+                        recommendation: 'Please switch to the more cost efficient plan -  \'Rate B\''
+                    });
+                } else {
+                    this.setState({
+                        recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate A\''
+                    });
+                }
+            } else if(this.state.currentRateSelected === 'Rate B'){
+                    if (billImpactA > billImpactB) {
+                        this.setState({
+                            recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate B\''
+                        });
+                } else {
+                    this.setState({
+                        recommendation: 'Please switch to the more cost efficient plan -  \'Rate A\''
+                    });
+                }
+            }
     }
 
     render () {
@@ -147,16 +234,19 @@ class Params extends Component {
         )
 
         if (this.state.calcDollarAmount) {
-            findings = (
-                <div className = 'findings after'>
-                    <p>Based on your selection</p>
-                    <div className = 'findings-details'>
-                        <p>Your current electricity bill: ${this.state.yearlyBillBefore}</p>
-                        <p>Your electricity bill after EV purchase: ${this.state.yearlyBillAfter}</p>
-                        <p>The <em>yearly</em> difference after EV purchase: <b>${this.state.yearlyBillAfter - this.state.yearlyBillBefore}</b></p>
+                findings = (
+                    <div className = 'findings after'>
+                        <p>Based on your selection</p>
+                        <div className = 'findings-details'>
+                            <p>The <em>yearly</em> impact on your electric bill with</p>
+                            <ul className = 'findings-list'>
+                                <li>Rate A - <b>${this.state.billImpactA}</b></li>
+                                <li>Rate B - <b>${this.state.billImpactB}</b></li>
+                            </ul>
+                            <p>Recommendation: <b>{this.state.recommendation}</b></p>
+                        </div>
                     </div>
-                </div>
-            )
+                )
         } else {
             findings = (
                 <div className = 'findings before'>
@@ -167,7 +257,7 @@ class Params extends Component {
         return (
             <div>
                 <div className = 'params'>
-                    <CurrentRate currentRate = {this.state.currentRate} change = {this.changeRateHandler} val = {this.state.hoursSelected}/>
+                    <CurrentRate currentRate = {this.state.currentRate} change = {this.changeRateHandler} val = {this.state.currentRateSelected}/>
                     {miles}
                     {chargingHours}
                     <button className = 'btn' onClick = {this.evaluateDollarAmount}>Evaluate</button>

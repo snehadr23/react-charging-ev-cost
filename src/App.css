@@ -24,7 +24,15 @@
   border: 0.2em solid #FFFFFF;
   padding: 2.5em 0.5em;
   vertical-align: middle;
-    height: 28em;
+  height: 28em;
+}
+
+.findings-list {
+  list-style-type: none;
+}
+
+.findings-list li {
+  margin-top: 1em;
 }
 
 .findings.before p {
