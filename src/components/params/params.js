@@ -78,125 +78,123 @@ class Params extends Component {
         });
     }
 
-    evaluateDollarAmount = (e) => {
+    calcBillImpactA = () => {
         var totalUsageBeforeA = 0;
         var totalBillBeforeA = 0;
         var totalUsageAfterA = 0;
         var totalBillAfterA = 0;
+        var billImpactA = 0;
+        this.state.loadProfile.map((loadDay, dayIndex) => {
+            loadDay.map((loadData, dataIndex) => {
+                if (dataIndex === 1) {
+                    totalUsageBeforeA += parseFloat(loadData);
+                    totalBillBeforeA += (0.15 * parseFloat(loadData));
+                }
+            });
+        });
+        totalBillBeforeA = Math.round(totalBillBeforeA);
+        this.setState({
+            yearlyUsageBeforeA: totalUsageBeforeA,
+            yearlyBillBeforeA: totalBillBeforeA
+        });
+        totalUsageAfterA = totalUsageBeforeA + (0.3 * this.state.milesSelected);
+        totalBillAfterA = Math.round(totalBillBeforeA + (0.3 * 0.15 * this.state.milesSelected));
+        this.setState({
+            yearlyUsageAfterA: totalUsageAfterA,
+            yearlyBillAfterA: totalBillAfterA
+        });
+        billImpactA = totalBillAfterA - totalBillBeforeA;
+        this.setState({
+            billImpactA: billImpactA
+        });
+    }
+
+    calcBillImpactB = () => {
         var totalUsageBeforeB = 0;
         var totalBillBeforeB = 0;
         var totalUsageAfterB = 0;
         var totalBillAfterB = 0;
-        var billImpactA = 0;
         var billImpactB = 0;
-        console.log('miles: ', this.state.milesSelected);
-        console.log('rate: ', this.state.currentRateSelected);
-        console.log('hours: ', this.state.hoursSelected);
+        this.state.loadProfile.map((loadDay, dayIndex) => {
+            loadDay.map((loadData, dataIndex) => {
+                if ((dataIndex === 0) 
+                && ((loadData.indexOf('13:00:00') > -1) || 
+                    (loadData.indexOf('14:00:00') > -1) || 
+                    (loadData.indexOf('15:00:00') > -1) || 
+                    (loadData.indexOf('16:00:00') > -1) || 
+                    (loadData.indexOf('17:00:00') > -1) || 
+                    (loadData.indexOf('18:00:00') > -1))) {
+                    this.setState({
+                        touFlag: true
+                    });
+                } else {
+                    this.setState({
+                        touFlag: false
+                    });
+                }
+                if (dataIndex === 1) {
+                    totalUsageBeforeB += parseFloat(loadData);
+                    if(this.state.touFlag) {
+                        totalBillBeforeB += (0.2 * parseFloat(loadData));
+                    } else {
+                        totalBillBeforeB += (0.08 * parseFloat(loadData));
+                    }
+                }
+            });
+        });
+        totalBillBeforeB = Math.round(totalBillBeforeB);
+        this.setState({
+            yearlyUsageBeforeB: totalUsageBeforeB,
+            yearlyBillBeforeB: totalBillBeforeB
+        });
+
+        totalUsageAfterB = totalUsageBeforeB + (0.3 * this.state.milesSelected);
+        if((this.state.hoursSelected === 'Noon to 6pm')) {
+            totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.2 * this.state.milesSelected));
+        } else {
+            totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.08 * this.state.milesSelected));
+        }
+        this.setState({
+            yearlyUsageAfterB: totalUsageAfterB,
+            yearlyBillAfterB: totalBillAfterB
+        });
+        billImpactB = totalBillAfterB - totalBillBeforeB;
+        this.setState({
+            billImpactB: billImpactB
+        });
+    }
+
+    determineRecommendation = () => {
+        if(this.state.currentRateSelected === 'Rate A') {
+            if (this.state.billImpactA > this.state.billImpactB) {
+                this.setState({
+                    recommendation: 'Please switch to the more cost efficient plan -  \'Rate B\''
+                });
+            } else {
+                this.setState({
+                    recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate A\''
+                });
+            }
+        } else if(this.state.currentRateSelected === 'Rate B') {
+                if (this.state.billImpactA > this.state.billImpactB) {
+                    this.setState({
+                        recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate B\''
+                    });
+            } else {
+                this.setState({
+                    recommendation: 'Please switch to the more cost efficient plan -  \'Rate A\''
+                });
+            }
+        }
+    }
+
+    evaluateDollarAmount = (e) => {
         this.setState({
             calcDollarAmount: true
         });
-            console.log('****Rate A****');
-            this.state.loadProfile.map((loadDay, dayIndex) => {
-                loadDay.map((loadData, dataIndex) => {
-                    if (dataIndex === 1) {
-                        totalUsageBeforeA += parseFloat(loadData);
-                        totalBillBeforeA += (0.15 * parseFloat(loadData));
-                    }
-                });
-            });
-            totalBillBeforeA = Math.round(totalBillBeforeA);
-            this.setState({
-                yearlyUsageBeforeA: totalUsageBeforeA,
-                yearlyBillBeforeA: totalBillBeforeA
-            });
-            console.log('totalBillBeforeA: ', totalBillBeforeA);
-            console.log('totalUsageBeforeA: ', totalUsageBeforeA);
-            totalUsageAfterA = totalUsageBeforeA + (0.3 * this.state.milesSelected);
-            totalBillAfterA = Math.round(totalBillBeforeA + (0.3 * 0.15 * this.state.milesSelected));
-            this.setState({
-                yearlyUsageAfterA: totalUsageAfterA,
-                yearlyBillAfterA: totalBillAfterA
-            });
-            console.log('avg mile/yr: ', this.state.milesSelected);
-            console.log('totalUsageAfterA: ', totalUsageAfterA);
-            console.log('totalBillAfterA: ', totalBillAfterA);
-            console.log('****Rate A****');
-            console.log('****Rate B****');
-            this.state.loadProfile.map((loadDay, dayIndex) => {
-                loadDay.map((loadData, dataIndex) => {
-                    if ((dataIndex === 0) 
-                    && ((loadData.indexOf('13:00:00') > -1) || 
-                        (loadData.indexOf('14:00:00') > -1) || 
-                        (loadData.indexOf('15:00:00') > -1) || 
-                        (loadData.indexOf('16:00:00') > -1) || 
-                        (loadData.indexOf('17:00:00') > -1) || 
-                        (loadData.indexOf('18:00:00') > -1))) {
-                        this.setState({
-                            touFlag: true
-                        });
-                    } else {
-                        this.setState({
-                            touFlag: false
-                        });
-                    }
-                    if (dataIndex === 1) {
-                        totalUsageBeforeB += parseFloat(loadData);
-                        if(this.state.touFlag) {
-                            totalBillBeforeB += (0.2 * parseFloat(loadData));
-                        } else {
-                            totalBillBeforeB += (0.08 * parseFloat(loadData));
-                        }
-                    }
-                });
-            });
-            totalBillBeforeB = Math.round(totalBillBeforeB);
-            this.setState({
-                yearlyUsageBeforeB: totalUsageBeforeB,
-                yearlyBillBeforeB: totalBillBeforeB
-            });
-
-            totalUsageAfterB = totalUsageBeforeB + (0.3 * this.state.milesSelected);
-            console.log('hoursSelected: ', this.state.hoursSelected);
-            if((this.state.hoursSelected === 'Noon to 6pm')) {
-                totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.2 * this.state.milesSelected));
-            } else {
-                totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.08 * this.state.milesSelected));
-            }
-            this.setState({
-                yearlyUsageAfterB: totalUsageAfterB,
-                yearlyBillAfterB: totalBillAfterB
-            });
-            console.log('avg mile/yr: ', this.state.milesSelected);
-            console.log('totalUsageAfterB: ', totalUsageAfterB);
-            console.log('totalBillAfterB: ', totalBillAfterB);
-            console.log('****Rate B****');
-            billImpactA = totalBillAfterA - totalBillBeforeA;
-            billImpactB = totalBillAfterB - totalBillBeforeB;
-            this.setState({
-                billImpactA: billImpactA,
-                billImpactB: billImpactB
-            });
-            if(this.state.currentRateSelected === 'Rate A') {
-                if (billImpactA > billImpactB) {
-                    this.setState({
-                        recommendation: 'Please switch to the more cost efficient plan -  \'Rate B\''
-                    });
-                } else {
-                    this.setState({
-                        recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate A\''
-                    });
-                }
-            } else if(this.state.currentRateSelected === 'Rate B'){
-                    if (billImpactA > billImpactB) {
-                        this.setState({
-                            recommendation: 'Congratulations! You are already on the most cost efficient plan - \'Rate B\''
-                        });
-                } else {
-                    this.setState({
-                        recommendation: 'Please switch to the more cost efficient plan -  \'Rate A\''
-                    });
-                }
-            }
+        this.calcBillImpactA();
+        this.calcBillImpactB();
+        this.determineRecommendation();
     }
 
     render () {
@@ -205,7 +203,7 @@ class Params extends Component {
         let findings = null;
         miles = (
             <div className = 'params-choice'>
-                <label for = 'miles'>Choose the Average number of Miles you drive per year</label>
+                <label for = 'miles'>Select the Average number of Miles you drive per year</label>
                 <div>
                     <select id = 'miles' className = 'select' onChange={this.changeMilesHandler} value = {this.state.milesSelected}>
                         {this.state.miles.milesList.map((miles, index) => {
@@ -220,7 +218,7 @@ class Params extends Component {
 
         chargingHours = (
             <div className = 'params-choice'>
-                <label for = 'charging-hours'>Choose the hours you plan to charge your EV</label>
+                <label for = 'charging-hours'>Select the hours you plan to charge your EV</label>
                 <div>
                     <select id = 'charging-hours' className = 'select' onChange={this.changeHoursHandler} value = {this.state.hoursSelected} >
                         {this.state.chargingHours.map((hours, index) => {
@@ -243,7 +241,7 @@ class Params extends Component {
                                 <li>Rate A - <b>${this.state.billImpactA}</b></li>
                                 <li>Rate B - <b>${this.state.billImpactB}</b></li>
                             </ul>
-                            <p>Recommendation: <b>{this.state.recommendation}</b></p>
+                            <p>Our Recommendation: <b>{this.state.recommendation}</b></p>
                         </div>
                     </div>
                 )

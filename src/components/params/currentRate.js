@@ -4,7 +4,7 @@ const CurrentRate = (props) => {
     return (
         <div>   
             <div className = 'params-choice'>
-                <label for = 'current-rate'>Choose your current rate</label>
+                <label for = 'current-rate'>Select your current rate</label>
                 <div>
                     <select id = 'current-rate' className = 'select' onChange = {props.change} value = {props.val}>
                         <option value = {props.currentRate.rateA.name}>{props.currentRate.rateA.name}</option>
