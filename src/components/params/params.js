@@ -5,6 +5,7 @@ import ChargingHourOption from './chargingHourOption';
 import loadProfileData from '../../assets/data/USA_NY_Buffalo.725280_TMY2.csv';
 import Papa from 'papaparse';
 import axios from 'axios';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 class Params extends Component {
     state = {
         currentRate: {   // electric plan options
@@ -41,7 +42,8 @@ class Params extends Component {
         billImpactA: 0, // yearly difference in bill with and without EV charging on Rate A
         billImpactB: 0, // yearly difference in bill with and without EV charging on Rate B
         touFlag: false, // a flag to denote the hour with spl rate on Rate B
-        recommendation: null // the recommendation for the user based on bill impact
+        recommendation: null, // the recommendation for the user based on bill impact
+        showChart: false // turns true when the user clicks 'Visualize findings', defaults to false
     }
 
     componentWillMount() {
@@ -188,6 +190,18 @@ class Params extends Component {
         }
     }
 
+    chartFindings = () => {
+        this.setState({
+            showChart: true // when the user clicks'Visualize Findings'
+        });
+    }
+
+    textFindings = () => {
+        this.setState({
+            showChart: false // when the user clicks 'Show Findings in text'
+        })
+    }
+
     evaluateDollarAmount = (e) => { // to evaluate user's choice to show impact and give recommmendation
         var billImpactA = 0;
         var billImpactB = 0;
@@ -203,6 +217,11 @@ class Params extends Component {
         let miles = null;
         let chargingHours = null;
         let findings = null;
+        let chartData = [{ // input for chart
+            name: "Bill Impact",
+            A: this.state.billImpactA,
+            B: this.state.billImpactB
+        }];
         miles = ( // HTML for 'Miles/year' driven by the user
             <div className = 'params-choice'>
                 <label for = 'miles'>Select the Average number of Miles you drive per year</label>
@@ -234,6 +253,7 @@ class Params extends Component {
         )
 
         if (this.state.calcDollarAmount) {
+            if (!this.state.showChart) { // findings in text
                 findings = ( // HTML for findings and recommendation after evaluation
                     <div className = 'findings after'>
                         <p>Based on your selection</p>
@@ -245,8 +265,34 @@ class Params extends Component {
                             </ul>
                             <p>Our Recommendation: <b>{this.state.recommendation}</b></p>
                         </div>
+                        <button className = 'btn' onClick = {this.chartFindings}>Visualize these findings</button>
                     </div>
                 )
+            } else { // findings in chart
+                findings = (
+                    <div className = 'findings after'>
+                        <BarChart
+                            width={500}
+                            height={350}
+                            data={chartData}
+                            margin={{
+                                top: 50,
+                                right: 30,
+                                left: 20,
+                                bottom: 5
+                            }}>
+                            
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="A" fill="#8884d8" />
+                            <Bar dataKey="B" fill="#82ca9d" />
+                        </BarChart>
+                        <button className = 'btn' onClick = {this.textFindings}>Show findings in text</button>
+                    </div>
+                )
+            }
         } else {
             findings = ( // HTML for findings and recommendation before evaluation
                 <div className = 'findings before'>

@@ -37,59 +37,71 @@
     height: 28em;
   }
 
-  .tooltip:hover + .tooltiptext {
-    visibility: visible;
-  }
+.tooltip:hover + .tooltiptext {
+  visibility: visible;
+}
 
-  .tooltiptext {
-    visibility: hidden;
-    background-color: #FFFFFF;
-    color: #000;
-    text-align: center;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 1;
-    top: 25%;
-    margin-left: 5em;
-  }
-  
-  .findings-list {
-    list-style-type: none;
-  }
-  
-  .findings-list li {
-    margin-top: 1em;
-  }
-  
-  .findings.before p {
-    margin: 35% auto;
-  }
-  
-  .findings.after p {
-    margin: 4% auto;
-  }
-  
-  .findings-details {
-    padding: 7%;
-    margin: 5%;
-    border-radius: 5%;
-    background-color: #FF7F50;
-    color: #000000;
-    border-radius: 50%;
-  }
-  
-  .btn {
-    width: 50%;
-    margin: 10% auto;
-    padding: 1em;
-    background-color: #FF7F50;
-    border-radius: 10px;
-    border-style: none;
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .btn:focus {
-    outline: none;
-  }
-  
+.tooltiptext {
+  visibility: hidden;
+  background-color: #FFFFFF;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 25%;
+  margin-left: 5em;
+}
+
+.findings-list {
+  list-style-type: none;
+}
+
+.findings-list li {
+  margin-top: 1em;
+}
+
+.findings.before p {
+  margin: 35% auto;
+}
+
+.findings.after p {
+  margin: 4% auto;
+}
+
+.findings-details {
+  padding: 7%;
+  margin: 5%;
+  border-radius: 5%;
+  background-color: #FF7F50;
+  color: #000000;
+  border-radius: 50%;
+}
+
+.btn {
+  width: 50%;
+  margin: 10% auto;
+  padding: 1em;
+  background-color: #FF7F50;
+  border-radius: 10px;
+  border-style: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.findings.after .recharts-wrapper {
+  background-color: white;
+  margin: 0 auto;
+}
+
+.findings.after .btn {
+  margin-top: 5%;
+}
+
+.findings.after .recharts-wrapper + .btn {
+  margin-top: 9%;
+}

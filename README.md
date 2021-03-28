@@ -13,6 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * web-vitals _installed during project creation_
 * axios _installed during project development_ for __making a call to .csv file__
 * papaparse _installed during project development_ for __parsing CSV data__
+* reacharts _installed during project development_ for __data visualization__
 
 ## Steps ##
 
