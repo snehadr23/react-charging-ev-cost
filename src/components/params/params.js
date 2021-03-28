@@ -92,13 +92,12 @@ class Params extends Component {
                 }
             });
         });
-        totalBillBeforeA = Math.round(totalBillBeforeA); //
         this.setState({
             yearlyUsageBeforeA: totalUsageBeforeA,
             yearlyBillBeforeA: totalBillBeforeA 
         });
         totalUsageAfterA = totalUsageBeforeA + (0.3 * this.state.milesSelected); // total electric usage on Rate A with EV charging
-        totalBillAfterA = Math.round(totalBillBeforeA + (0.3 * 0.15 * this.state.milesSelected)); // total bill on Rate A with EV charging
+        totalBillAfterA = (totalBillBeforeA + (0.3 * 0.15 * this.state.milesSelected)); // total bill on Rate A with EV charging
         this.setState({
             yearlyUsageAfterA: totalUsageAfterA,
             yearlyBillAfterA: totalBillAfterA
@@ -143,7 +142,6 @@ class Params extends Component {
                 }
             });
         });
-        totalBillBeforeB = Math.round(totalBillBeforeB); // total amount without EV charging on Rate B
         this.setState({
             yearlyUsageBeforeB: totalUsageBeforeB,
             yearlyBillBeforeB: totalBillBeforeB
@@ -151,9 +149,9 @@ class Params extends Component {
 
         totalUsageAfterB = totalUsageBeforeB + (0.3 * this.state.milesSelected); // total electricity usage with EV charging on Rate B
         if((this.state.hoursSelected === 'Noon to 6pm')) {
-            totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.2 * this.state.milesSelected)); // total amount with EV charging on Rate B during spl rate hour
+            totalBillAfterB = (totalBillBeforeB + (0.3 * 0.2 * this.state.milesSelected)); // total amount with EV charging on Rate B during spl rate hour
         } else {
-            totalBillAfterB = Math.round(totalBillBeforeB + (0.3 * 0.08 * this.state.milesSelected)); // total amount with EV charging on Rate B during normal rate hour
+            totalBillAfterB = (totalBillBeforeB + (0.3 * 0.08 * this.state.milesSelected)); // total amount with EV charging on Rate B during normal rate hour
         }
         this.setState({
             yearlyUsageAfterB: totalUsageAfterB,
