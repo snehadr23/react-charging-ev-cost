@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p>
-          Check if your current electric rate is best for your EV
+          Check if your current electric rate is best for your EV charging needs
         </p>
       </header>
       <div className = 'data'>
