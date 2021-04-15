@@ -21,3 +21,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * Run `npm install` to install all the dependencies
 * After verifying that all the dependencies have been properly installed, run `npm start`
 * The application should open at 'http://localhost:3000/'
+
+
+A sample BarChart is implemented - https://codesandbox.io/s/simple-bar-chart-tpz8r?file=/src/App.tsx

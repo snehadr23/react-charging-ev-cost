@@ -218,7 +218,8 @@ class Params extends Component {
         let chargingHours = null;
         let findings = null;
         let chartData = [{ // input for chart
-            name: "Bill Impact",
+            plans: 'Plans',
+            impact: 'Bill Impact',
             A: this.state.billImpactA,
             B: this.state.billImpactB
         }];
@@ -282,8 +283,8 @@ class Params extends Component {
                                 bottom: 5
                             }}>
                             
-                            <XAxis dataKey="name" />
-                            <YAxis />
+                            <XAxis dataKey='plans' />
+                            <YAxis datakey='impact'/>
                             <Tooltip />
                             <Legend />
                             <Bar dataKey="A" fill="#8884d8" />
