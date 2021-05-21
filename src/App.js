@@ -13,6 +13,11 @@ function App() {
       <div className = 'data'>
         <Params/>
       </div>
+      <div>
+        <a className = 'git-repo' target = '_blank' href = 'https://github.com/snehadr23/react-charging-ev-cost'>
+          <img src = 'GitHub-Mark-Light-32px.png'/>
+        </a>
+      </div>
       
     </div>
   );

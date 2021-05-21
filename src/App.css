@@ -13,3 +13,14 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
+
+.App div a.git-repo {
+  position: absolute;
+  bottom: 1%;
+  left: 49%;
+}
+
+.App div a.git-repo img {
+  width: 50%;
+  height: 50%;
+}
